@@ -28,41 +28,11 @@ def linear_metric(k):
         a += np.diag(to_add, -i)
     return a
 
-def stroop_state_response_set(num_words, num_pictures, epsilon=EPSILON):
-    p_words = np.ones(num_words)/num_words
-    p_pictures = np.zeros(num_words)
-    p_pictures[num_pictures:] = epsilon
-    p_pictures[:num_pictures] = np.ones(num_pictures)/num_pictures - (num_words-num_pictures)*epsilon
-    return p_words[:, None] * p_pictures[None, :]    
-    
-def stroop_policy_response_set(p_name, A, num_words, num_pictures, epsilon=EPSILON, **kwds):
-    # Demonstration: q = stroop_policy_response_set(.1, [0,0,0,1], 10, 5, num_iter=100)
-    # q[1,:,0,0] -- case where the distractor is in the response set
-    # q[1,:,4,4] -- things to the left show interference; things to the right don't.
-    # Compare against q given 10,10. That one is symmetrical.
-    p_wp = stroop_state_response_set(num_words, num_pictures, epsilon=epsilon)
-    return stroop_policy(p_name, A, p_wp, **kwds)
-
 def stroop_state_zm(num_items, s_words, s_pictures, q_words=0, q_pictures=0):
     p_words = zipf_mandelbrot(num_items, s_words, q_words)
     p_pictures = zipf_mandelbrot(num_items, s_pictures, q_pictures)
     return p_words[:, None] * p_pictures[None, :]
     
-def stroop_policy_zm(p_name, A, num_items, s_words, s_pictures, q_words=0, q_pictures=0, **kwds):
-    p_wp = stroop_state_zm(num_items, s_words, s_pictures, q_words, q_pictures)
-    return stroop_policy(p_name, A, p_wp, **kwds)
-
-def stroop_policy_simple(p_name, A, num_words, **kwds):
-    # Setting with interference at equilibrium:
-    # p_name=.1, A=[0,0,0,.4], num_words=10; that is, gamma=5/2.
-    # A[-1] = .3 also works
-    # Below about A[-1] = .15, we always do the right thing.
-    # Above A[-1] = .4, we get p(right action) = 0.
-    p_word = np.ones(num_words)/num_words
-    p_picture = p_word
-    p_wp = p_word[:, None] * p_picture[None, :]
-    return stroop_policy(p_name, A, p_wp, **kwds)
-
 def basic_simulation(gamma=1/3, N=10, which=0, neutral=None, g=.1):
     q, p, d = stroop_policy(g, [0,0,0,gamma], stroop_state_zm(10, 0, 0), with_info=True, neutral=neutral)
     df = analyze_stroop_policy_pointwise(q, p, which=0)
@@ -121,17 +91,6 @@ def stroop_policy(p_name, A, p_wp, d_falloff=1, reading_gradient=True, with_info
         return result, p, d
     else:
         return result
-
-def logistic(d, q, gamma):
-    return 1 / (1 + ((1-q)/q)*np.exp(-gamma*d))
-
-def logistic_entropy(d, q, gamma=1):
-    one = logistic(d, q, gamma)
-    two = logistic(d, 1-q, -gamma)
-    return -(one*np.log(one) + two*np.log(two))
-
-def binary_entropy(p):
-    return -(p*np.log(p) + (1-p)*np.log(1-p))
 
 def analyze_stroop_policy_pointwise(q, p, which=0):
     G, W, P, A = q.shape
