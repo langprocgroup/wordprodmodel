@@ -1,5 +1,4 @@
 rm(list=ls())
-setwd("/Users/canjo/projects/control")
 library(tidyverse)
 library(stringr)
 library(forcats)
