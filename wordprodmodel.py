@@ -274,9 +274,7 @@ def zipf_mandelbrot(N, s, q=0):
     return p/Z
 
 if __name__ == '__main__':
-    import datetime
-    date = str(datetime.date.today())
-    basic_simulation().to_csv("basic_simulation_%s.csv" % date)
-    neutral_simulation().to_csv("neutral_simulation_%s.csv" % date)
-    reverse = reverse_simulation().to_csv("reverse_simulation_%s.csv" % date)
+    basic_simulation().to_csv("basic_simulation.csv")
+    neutral_simulation().to_csv("neutral_simulation.csv")
+    reverse = reverse_simulation().to_csv("reverse_simulation.csv")
     

@@ -62,8 +62,8 @@ interference(G,Q, steps=1000) %>%
 
 ggsave("computation_logistic.pdf", width=5, height=4)
 
-basic_sim = read_csv("basic_simulation_2020-06-30.csv") %>% select(-X1)
-neutral_sim = read_csv("neutral_simulation_2020-06-30.csv") %>% filter(d == 2)
+basic_sim = read_csv("basic_simulation.csv") %>% select(-X1)
+neutral_sim = read_csv("neutral_simulation.csv") %>% filter(d == 2)
 
 basic_sim %>% 
   gather(measure, value, -goal, -d) %>% 
@@ -80,7 +80,7 @@ basic_sim %>%
 
 ggsave("basic_simulation.pdf", width=6, height=3)
 
-reverse_sim = read_csv("reverse_simulation_2020-06-30.csv") %>% select(-X1)
+reverse_sim = read_csv("reverse_simulation.csv") %>% select(-X1)
 reverse_sim %>% 
   gather(measure, value, -goal, -d, -g) %>% 
   filter(measure %in% c("h", "s")) %>%
