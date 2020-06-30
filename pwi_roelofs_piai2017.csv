@@ -1,0 +1,9 @@
+condition,M,PE,mu,sigma,tau,variable
+semantic,869,2.8,714,66,155,mean
+semantic,25,0.6,23,9,10,se
+unrelated,830,1.5,696,51,130,mean
+unrelated,25,0.4,20,6,11,se
+neutral,741,1.6,619,45,123,mean
+neutral,19,0.3,18,4,10,se
+identity,727,1.5,611,45,116,mean
+identity,21,0.5,18,5,10,se
