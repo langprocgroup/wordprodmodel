@@ -235,5 +235,5 @@ def zipf_mandelbrot(N, s, q=0):
 if __name__ == '__main__':
     basic_simulation().to_csv("basic_simulation.csv")
     neutral_simulation().to_csv("neutral_simulation.csv")
-    reverse = reverse_simulation().to_csv("reverse_simulation.csv")
+    reverse_simulation().to_csv("reverse_simulation.csv")
     
